@@ -5,7 +5,6 @@
 
 include 'header.php';
 include 'functions.php';
-
 session_start();
 $_SESSION['link']="http://cdn.sealykelvin.com/id/";
 $link=null;
