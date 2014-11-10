@@ -1,6 +1,5 @@
 AWS-Post
 ========
-<?php
-phpinfo();
-?>
+Hello 
+How are you??
 
