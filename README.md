@@ -1,0 +1,6 @@
+AWS-Post
+========
+<?php
+phpinfo();
+?>
+
