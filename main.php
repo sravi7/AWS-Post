@@ -19,7 +19,7 @@ if(array_key_exists('Submit1',$_POST))
 	echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.$_SESSION['engine_mac'].'</p>';
 	display_json_files();
 }
-elseif(array_key_exists('Submit3', $_POST))
+elseif(array_key_exists('Submit_get_json', $_POST))
 {
 	if(array_key_exists('json', $_POST))
 	{
@@ -34,7 +34,7 @@ elseif(array_key_exists('Submit3', $_POST))
 		echo "<p style=\"font-size:30px;\">This is the <strong>".$_POST['json']."</strong> file for the engine with MAC address <strong>".$_SESSION['engine_mac']."</strong>.</p>";
 		echo '<form id="editor" method="post" action="'.$_SERVER['PHP_SELF'].'">
 				<textarea id="file_contents" rows=20% cols=90% name="json_content">'.$link.'</textarea><br/>		
-				<input type="submit" value="Submit" name="Submit4"/>
+				<input type="submit" value="Submit" name="Submit_post_json"/>
 		</form><br/>';	
 	}
 	else
@@ -43,7 +43,7 @@ elseif(array_key_exists('Submit3', $_POST))
 		display_json_files();
 	}
 }
-elseif(array_key_exists('Submit4', $_POST))
+elseif(array_key_exists('Submit_post_json', $_POST))
 {
 	$data_string = $_POST['json_content'];
 	$result = file_get_contents('http://sealykelvin.com/endpoint/?id='.$_SESSION['engine_mac'], null, stream_context_create(array(
