@@ -61,7 +61,7 @@ elseif(array_key_exists('Submit2', $_POST))
 {
 	if(array_key_exists('mac',$_POST))
 	{
-		$handle=fopen("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\Post_Data\\engine.txt", "a");
+		$handle=fopen("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt", "a");
 		$contents = fwrite($handle, $_POST['engine_mac']);
 		fclose($handle);
 		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.$_POST['engine_mac'].'</p>';
