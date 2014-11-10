@@ -2,6 +2,7 @@
 function display_engine()
 {
 	$file_contents=file_get_contents("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt");
+	
 	if(!empty($file_contents))
 	{
 		//old $contents=str_split($file_contents, "\n");
