@@ -2,6 +2,5 @@ AWS-Post
 ========
 <?php
 phpinfo();
-
 ?>
 
