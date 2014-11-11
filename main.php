@@ -3,7 +3,8 @@
 # Author: Santosh Ravi
 # Created on 10/27/2014
 # Update on 11.11.2014: Changed the "Submit2" case where the if condition will be looking for "engine_mac", which was previously "mac".
-
+# Update on 11.11.2014: Changed the "Submit2" case where instead of just submitting the engine's MAC address, the MAC address is concatenated with a new line character so that 
+#			testing can be performed with 6 or more characters.
 include 'header.php';
 include 'functions.php';
 
@@ -64,9 +65,9 @@ elseif(array_key_exists('Submit2', $_POST))
 	if(array_key_exists('engine_mac',$_POST))
 	{
 		$handle=fopen("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt", "a");
-		fwrite($handle, $_POST['engine_mac']);
+		fwrite($handle, $_POST['engine_mac'].PHP_EOL);
 		fclose($handle);
-		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.$_POST['engine_mac'].'</p>';
+		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.strtoupper($_POST['engine_mac']).'</p>';
 		display_json_files();
 	}
 	else
@@ -74,6 +75,10 @@ elseif(array_key_exists('Submit2', $_POST))
 		echo 'Select one option';
 		display_json_files();
 	}
+}
+elseif(array_key_exists('new_engine',$_POST))
+{
+	insert_new_engine();
 }
 else
 {
