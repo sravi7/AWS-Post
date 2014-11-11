@@ -1,7 +1,11 @@
 <?php
 function display_engine()
 {
-	$file_contents=file_get_contents("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt");
+	if(file_exists("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt"))
+	{
+		$file_contents=file_get_contents("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt");
+	}
+	
 	if(!empty($file_contents))
 	{
 		//old $contents=str_split($file_contents, "\n");
@@ -36,6 +40,6 @@ function display_json_files()
 			<input type="radio" name="json" value="side-b.json" id="json4"/><label for="json4">Side-b.json</label>
 			<input type="radio" name="json" value="sleep-a.json" id="json5"/><label for="json5">Sleep-a.json</label>
 			<input type="radio" name="json" value="sleep-b.json" id="json6"/><label for="json6">Sleep-b.json</label><br/>
-			<input type="submit" name="Submit_get_json" value="Submit"/>
+			<input type="submit" name="Submit3" value="Submit"/>
 		</form><br/>';
 }
