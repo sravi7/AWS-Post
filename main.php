@@ -13,7 +13,8 @@
 #			Depending upon the user action, the respective actions would take place.
 #			2. Created an option to delete the engine from the "engine.txt" file if the user decides that the engine is not required.
 #			3. Updated the "Submit2". This code will check if the user has entered any value in the text field or not. If no value is entered, then the user will be 
-#			asked to enter a value.
+#							asked to enter a value.
+#			4. Added a new feature where the user can reset and start from the beginning, irrespective of the page where there are working.
 
 include 'header.php';
 include 'functions.php';
@@ -32,6 +33,26 @@ if(array_key_exists('Submit1',$_POST))
 	
 	echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.$_SESSION['engine_mac'].'</p>';
 	display_json_files();
+	echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
+}
+
+# In this case, the new engine's MAC address is written to the file.
+elseif(array_key_exists('Submit2', $_POST))
+{
+	if(strlen($_POST['engine_mac'])!=0)
+	{
+		$handle=fopen("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt", "a");
+		fwrite($handle, $_POST['engine_mac'].PHP_EOL);
+		fclose($handle);
+		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.strtoupper($_POST['engine_mac']).'</p>';
+		display_json_files();
+		echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /><br/></form>';
+	}
+	else
+	{
+		echo '<p style="font-size:30px;">You have not entered any value. Kindly enter a value.</p>';
+		insert_new_engine();
+	}
 }
 
 # This is the place where the contents of the JSON file is displayed. The user can work with this file or can select a different JSON file.
@@ -47,6 +68,7 @@ elseif(array_key_exists('Submit3', $_POST))
 		// $_SESSION['json_data']=$link;
 		// $link=$link.$_SESSION['engine_mac'];	
 		display_json_files();
+		echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
 		echo '<hr>';
 		echo "<p style=\"font-size:30px;\">This is the <strong>".$_POST['json']."</strong> file for the engine with MAC address <strong>".$_SESSION['engine_mac']."</strong>.</p>";
 		echo '<form id="editor" method="post" action="'.$_SERVER['PHP_SELF'].'">
@@ -58,6 +80,7 @@ elseif(array_key_exists('Submit3', $_POST))
 	{
 		echo '<p style="font-size:30px;">Please make a selection.</p>';
 		display_json_files();
+		echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
 	}
 }
 
@@ -75,7 +98,7 @@ elseif(array_key_exists('Submit4', $_POST))
 	)));
 	echo '<p style="font-size:25px;"> Data has been submitted to change the contents of <strong>'.$_SESSION['json_file_name'].'</strong> file for the engine with MAC address <strong>'.$_SESSION['engine_mac'].'</strong>.</p>';
 	display_json_files();
-	echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form>';
+	echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
 }
 
 # This case kicks in when the user decides to work with a different engine after submitting data to the cloud.
@@ -83,24 +106,6 @@ elseif(array_key_exists('start_beginning', $_POST))
 {
 	session_destroy();
 	display_engine();
-}
-
-# In this case, the new engine's MAC address is written to the file.
-elseif(array_key_exists('Submit2', $_POST))
-{
-	if(strlen($_POST['engine_mac'])!=0)
-	{
-		$handle=fopen("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt", "a");
-		fwrite($handle, $_POST['engine_mac'].PHP_EOL);
-		fclose($handle);
-		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.strtoupper($_POST['engine_mac']).'</p>';
-		display_json_files();
-	}
-	else
-	{
-		echo '<p style="font-size:30px;">You have not entered any value. Kindly enter a value.</p>';
-		insert_new_engine();
-	}
 }
 
 # This is condition kicks the form where the user can add a new engine.
