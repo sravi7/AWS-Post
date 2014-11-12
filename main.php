@@ -8,10 +8,12 @@
 #						testing can be performed with 6 or more characters.
 #
 # Update on 11.12.2014: 1. Changed the "Submit4" case, where after submitting the data to the cloud, the user is given two options,i.e., 
-#				(a) To work with the same engine, 
-#				(b) To work with a different engine.
+#							(a) To work with the same engine, 
+#							(b) To work with a different engine.
 #			Depending upon the user action, the respective actions would take place.
 #			2. Created an option to delete the engine from the "engine.txt" file if the user decides that the engine is not required.
+#			3. Updated the "Submit2". This code will check if the user has entered any value in the text field or not. If no value is entered, then the user will be 
+#			asked to enter a value.
 
 include 'header.php';
 include 'functions.php';
@@ -20,6 +22,7 @@ session_start();
 $_SESSION['link']="http://cdn.sealykelvin.com/id/";
 $link=null;
 
+# This condition adds the engines MAC to the "SESSION" variable and then displays the list of JSON files.
 if(array_key_exists('Submit1',$_POST))
 {
 	// old $_SESSION['engine_mac'] = $_POST['mac']; 
@@ -31,6 +34,7 @@ if(array_key_exists('Submit1',$_POST))
 	display_json_files();
 }
 
+# This is the place where the contents of the JSON file is displayed. The user can work with this file or can select a different JSON file.
 elseif(array_key_exists('Submit3', $_POST))
 {
 	if(array_key_exists('json', $_POST))
@@ -52,11 +56,12 @@ elseif(array_key_exists('Submit3', $_POST))
 	}
 	else
 	{
-		echo 'Select one option';
+		echo '<p style="font-size:30px;">Please make a selection.</p>';
 		display_json_files();
 	}
 }
 
+# This case submits the data to the cloud.
 elseif(array_key_exists('Submit4', $_POST))
 {
 	$data_string = $_POST['json_content'];
@@ -73,15 +78,17 @@ elseif(array_key_exists('Submit4', $_POST))
 	echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form>';
 }
 
+# This case kicks in when the user decides to work with a different engine after submitting data to the cloud.
 elseif(array_key_exists('start_beginning', $_POST))
 {
 	session_destroy();
 	display_engine();
 }
 
+# In this case, the new engine's MAC address is written to the file.
 elseif(array_key_exists('Submit2', $_POST))
 {
-	if(array_key_exists('engine_mac',$_POST))
+	if(strlen($_POST['engine_mac'])!=0)
 	{
 		$handle=fopen("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt", "a");
 		fwrite($handle, $_POST['engine_mac'].PHP_EOL);
@@ -91,16 +98,18 @@ elseif(array_key_exists('Submit2', $_POST))
 	}
 	else
 	{
-		echo 'Select one option';
-		display_json_files();
+		echo '<p style="font-size:30px;">You have not entered any value. Kindly enter a value.</p>';
+		insert_new_engine();
 	}
 }
 
+# This is condition kicks the form where the user can add a new engine.
 elseif(array_key_exists('new_engine',$_POST))
 {
 	insert_new_engine();
 }
 
+# This option is selected when the user selects the engine they want to be deleted.
 elseif(array_key_exists('delete_engine', $_POST))
 {
 	$file_contents=file_get_contents("C:\\Apache24\\htdocs\\Kelvin_Engine_Wi-Fi\\engine.txt");
