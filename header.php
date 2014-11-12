@@ -2,6 +2,7 @@
 # This is a PHP Script written for Testing the Kelvin Engines by posting it to the cloud.
 # The author is Santosh Ravi
 # Created on 10/27/2014
+# Update on 11/12/2014: Updated the font-family for the webpage.
 
 echo '<!DOCTYPE html>
 	<html><head>
@@ -24,6 +25,7 @@ echo '<!DOCTYPE html>
 			<!--Ran>;
 				height:auto;
 				background-color:#DFE1E8;
+				font-family: "Lucida Bright",Georgia,serif;
 			}
 			#main_content
 			{
