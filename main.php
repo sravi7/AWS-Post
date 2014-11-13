@@ -16,6 +16,7 @@
 #			asked to enter a value.
 #			4. Added a new feature where the user can reset and start from the beginning, irrespective of the page where there are working.
 # Update on 11.13.2014: 1. Updated the "start_beginning" form action. The updated version redirects to the home page irrespective of the path where it is stored.
+#			2. The updated code will make the user to select an option in the home page if no option is selected by the user.
 
 include 'header.php';
 include 'functions.php';
@@ -27,15 +28,22 @@ $link=null;
 # This condition adds the engines MAC to the "SESSION" variable and then displays the list of JSON files.
 if(array_key_exists('Submit1',$_POST))
 {
-	// old $_SESSION['engine_mac'] = $_POST['mac']; 
-	# The next line of statement will remove the "\r\n" at the very end of the MAC address of the engine so that there is no space in the link.
-	# Example: http://cdn.sealykelvin.com/id/0ABCDE /status.json  will be the link instead of http://cdn.sealykelvin.com/id/0ABCDE/status.json if the next line is not performed.
-	$_SESSION['engine_mac']= strtoupper(preg_replace("/[\r\n]*/","",$_POST['mac']));
-	
-	echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.$_SESSION['engine_mac'].'</p>';
-	display_json_files();
-	echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
-	// echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
+	// if(strlen($_POST['mac'])==0)
+	if(empty($_POST['mac']))
+	{
+		echo '<h1>Please select an option</h1>';
+		display_engine();
+	}
+	else
+	{
+		// old $_SESSION['engine_mac'] = $_POST['mac']; 
+		# The next line of statement will remove the "\r\n" at the very end of the MAC address of the engine so that there is no space in the link.
+		# Example: http://cdn.sealykelvin.com/id/0ABCDE /status.json  will be the link instead of http://cdn.sealykelvin.com/id/0ABCDE/status.json if the next line is not performed.
+		$_SESSION['engine_mac']= strtoupper(preg_replace("/[\r\n]*/","",$_POST['mac']));
+		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.$_SESSION['engine_mac'].'</p>';
+		display_json_files();
+		echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
+	}
 }
 
 # In this case, the new engine's MAC address is written to the file.
