@@ -17,9 +17,13 @@
 #			4. Added a new feature where the user can reset and start from the beginning, irrespective of the page where there are working.
 # Update on 11.13.2014: 1. Updated the "start_beginning" form action. The updated version redirects to the home page irrespective of the path where it is stored.
 #			2. The updated code will make the user to select an option in the home page if no option is selected by the user.
+# Update on 11.14.2014: 1. The "start_beginning" submit action was moved in the display_json_files() function in the functions.php file.
+#			2. Added a new form action giving an option to the user to increase the sequence number.
 
 include 'header.php';
 include 'functions.php';
+include 'test_cases.php';
+
 // echo getcwd();
 session_start();
 $_SESSION['link']="http://cdn.sealykelvin.com/id/";
@@ -42,7 +46,7 @@ if(array_key_exists('Submit1',$_POST))
 		$_SESSION['engine_mac']= strtoupper(preg_replace("/[\r\n]*/","",$_POST['mac']));
 		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.$_SESSION['engine_mac'].'</p>';
 		display_json_files();
-		echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
+		// echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
 	}
 }
 
@@ -57,7 +61,7 @@ elseif(array_key_exists('Submit2', $_POST))
 		echo '<p style="font-size:30px;">Please select the JSON file for the engine with MAC Address '.strtoupper($_POST['engine_mac']).'</p>';
 		display_json_files();
 		// echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /><br/></form>';
-		echo '<form method="post" action="."><input type="Submit" name="start_beginning" value="Start from the First!!!!" /><br/></form>';
+		// echo '<form method="post" action="."><input type="Submit" name="start_beginning" value="Start from the First!!!!" /><br/></form>';
 	}
 	else
 	{
@@ -79,20 +83,16 @@ elseif(array_key_exists('Submit3', $_POST))
 		// $_SESSION['json_data']=$link;
 		// $link=$link.$_SESSION['engine_mac'];	
 		display_json_files();
-		echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
-		echo '<hr>';
-		echo "<p style=\"font-size:30px;\">This is the <strong>".$_POST['json']."</strong> file for the engine with MAC address <strong>".$_SESSION['engine_mac']."</strong>.</p>";
-		echo '<form id="editor" method="post" action="'.$_SERVER['PHP_SELF'].'">
-				<textarea id="file_contents" rows=20% cols=90% name="json_content">'.$_SESSION['json_data'].'</textarea><br/>		
-				<input type="submit" value="Submit" name="Submit4"/>
-		</form><br/>';	
+		// echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/><hr>';
+		display_json_data();
+		// echo '<div id="form_right"><form>'.$_SESSION['json_data'].'</form></div></div>';
 	}
 	else
 	{
 		echo '<p style="font-size:30px;">Please make a selection.</p>';
 		display_json_files();
 		// echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
-		echo '<form method="post" action"."><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
+		// echo '<form method="post" action"."><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
 	}
 }
 
@@ -111,7 +111,7 @@ elseif(array_key_exists('Submit4', $_POST))
 	echo '<p style="font-size:25px;"> Data has been submitted to change the contents of <strong>'.$_SESSION['json_file_name'].'</strong> file for the engine with MAC address <strong>'.$_SESSION['engine_mac'].'</strong>.</p>';
 	display_json_files();
 	// echo '<form method="post" action="http://localhost/Kelvin_Engine_Wi-Fi/Testing_Code/main.php"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
-	echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
+	// echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"><input type="Submit" name="start_beginning" value="Start from the First!!!!" /></form><br/>';
 }
 
 # This case kicks in when the user decides to work with a different engine after submitting data to the cloud.
@@ -136,6 +136,10 @@ elseif(array_key_exists('delete_engine', $_POST))
 	display_engine();
 }
 
+elseif((array_key_exists('Submit_Sequence_Number', $_POST)) || (array_key_exists('Submit_Increment_1', $_POST)))
+{
+	update_sequence_number();
+}
  else
 {
 	display_engine();
