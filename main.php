@@ -79,7 +79,7 @@ elseif(array_key_exists('Submit3', $_POST))
 		$_SESSION['link']=$_SESSION['link'].$_SESSION['engine_mac']."/".$_POST['json'];
 		// echo "<h1>".$_SESSION['link']."</h1>";
 		// $link=file_get_contents($_SESSION['link']);
-		$_SESSION['json_data']=file_get_contents($_SESSION['link']);
+		$_SESSION['json_data']=file_get_contents($_SESSION['link']);	
 		// $_SESSION['json_data']=$link;
 		// $link=$link.$_SESSION['engine_mac'];	
 		display_json_files();
