@@ -19,6 +19,9 @@ echo '
 	<html><head>
 	<meta http-equiv="refresh" content="'.$_SESSION["sec"].'" URL='.$page.'">
 		<style>
+	html, body { 
+		height: 100%;
+	}
 	#header {
 		background-color:black;
 		color:white;
@@ -31,28 +34,28 @@ echo '
 
 	#status { 
 		background-color:#DDE2FB;
-		height:300px;
+		height:45vh;
 		width:33%;
 		float:left;
 				 
 	}
 	#settings {
 		background-color:#B7C1FB;
-		height:300px;
+		height:45vh;
 		width:33%;
 		float:left;
 		 
 	}
 	#side-a {
 		background-color:#8899FC;
-		height:300px;
+		height:45vh;
 		width:33%;
 		float:left;
 		  
 	}
 	#side-b {
 		background-color:#A7F9FC;
-		height:300px;
+		height:45vh;
 		width:33%;
 		float:left;
 		  
@@ -60,14 +63,14 @@ echo '
 
 	#sleep-a {
 		background-color:#6EDCDF;
-		height:300px;
+		height:45vh;
 		width:33%;
 		float:left;
 		  
 	}
 	#sleep-b {
 		background-color:#4FCBD0;
-		height:300px;
+		height:45vh;
 		width:33%;
 		float:left;
 		  

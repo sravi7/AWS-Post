@@ -3,8 +3,8 @@ session_start();
 
 #-------preset value-------------
 #time stamp for file name
-date_default_timezone_set('UTC');
-date('mdGIs');
+date_default_timezone_set('EST');
+#date('m_d_H_i_s');
 
 #address
 $AWS_address="http://cdn.sealykelvin.com/id/";
@@ -96,7 +96,7 @@ if (array_key_exists('mac',$_POST) or ($_SESSION["engine_address"]!="" ) )
 	{
 		$address=$AWS_address.$engine_address.'/'.$window.'.json';#http address of each json
 		$_SESSION[$window] = file_get_contents($address);
-		$file = date('mdGIs').$window.'.json';
+		$file = date('m_d_H_i_s').$window.'.json';
 		if (isset($_SESSION["json_old"][$window]))
 		{
 			if ( $_SESSION[$window]!= $_SESSION["json_old"][$window] )
