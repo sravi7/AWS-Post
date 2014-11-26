@@ -22,6 +22,19 @@ $show_Json='Submit1';
 if(isset($titleColor)==False)
 {$titleColor="";}
 
+if (isset($_SESSION["speak"])==False){$_SESSION["speak"]="off";}
+if(array_key_exists("speak",$_POST))
+{
+	if(array_key_exists('speak_check',$_POST))
+	{
+		$_SESSION["speak"]="on";
+	}
+	else
+	{
+		$_SESSION["speak"]="off";
+	}
+}
+
 #when load the page and engine_addres has not created
 if (isset($_SESSION["engine_address"])==false)
 	{	$_SESSION["engine_address"]="";	}
@@ -43,8 +56,8 @@ if(array_key_exists('autoRefresh',$_POST))
 // echo 'refresh'.$_SESSION["sec"].'sec';
 
 include 'View&logHeader.php';
-// include 'View&logfunctions.php';
 include 'functions.php';
+include 'C:\Apache24\htdocs\test\ran_func.php';
 
 #-----address page--------
 if ($_SESSION["engine_address"]=="" and (!array_key_exists($show_Json,$_POST)))
@@ -80,6 +93,15 @@ if (array_key_exists('mac',$_POST) or ($_SESSION["engine_address"]!="" ) )
 		else
 		{			echo '<input type="checkbox" name="Checkbox" value="enable"/>';		}
 	echo '<input type="submit" name="autoRefresh" value="auto refresh"/>';
+	
+		#speak
+	echo' <from id="speak" method="post" action="'.$_SERVER['PHP_SELF'].'">	';
+			if ($_SESSION["speak"]=="on") 
+			{			echo '<input type="checkbox" name="speak_check" value="on" checked/>';		}
+			else
+			{			echo '<input type="checkbox" name="speak_check" value="on"/>';		}
+		echo '<input type="submit" name="speak" value="speak"/>';
+	
 
 	echo '</div>';
 		
@@ -99,11 +121,18 @@ if (array_key_exists('mac',$_POST) or ($_SESSION["engine_address"]!="" ) )
 		$file = date('m_d_H_i_s').$window.'.json';
 		if (isset($_SESSION["json_old"][$window]))
 		{
-			if ( $_SESSION[$window]!= $_SESSION["json_old"][$window] )
+			if ( $_SESSION[$window]!= $_SESSION["json_old"][$window] ) #if current json is != old json
 				{
-					$titleColor="red";
-					$_SESSION["json_old"][$window] = $_SESSION[$window];
-					$myfile = fopen($file, "w");
+					$titleColor="red";  #make title red
+					
+					if($_SESSION["speak"]=="on") {
+					audio_name($window);   #play audio
+					}
+					//echo '<div transition-delay: 1s></div>'; #each sound track is less than 0.5s long
+					
+				
+					$_SESSION["json_old"][$window] = $_SESSION[$window]; #update old json
+					$myfile = fopen("log\\".$file, "w");#save current json and update
 					fwrite($myfile, $_SESSION[$window]);
 					fclose($myfile);
 				}
@@ -112,10 +141,20 @@ if (array_key_exists('mac',$_POST) or ($_SESSION["engine_address"]!="" ) )
 		{$_SESSION["json_old"][$window]=$_SESSION[$window];
 		$titleColor="";}
 
+		#display current window
 		echo '<div id="'.$window.'">
 		<font size="4"><span style="background-color:'.$titleColor.'">'.$window.'</span></font>
 		<div id="json_box">'.$_SESSION[$window].'</div>
+		
+		
+		
 		</div>';
+		
+		#play audio is changed
+		
+		
+		
+		#store title color to default blank
 		$titleColor="";
 	
 	 }

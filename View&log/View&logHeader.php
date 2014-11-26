@@ -1,17 +1,24 @@
 <?php
-#last update 11/18 Ran
+#last update 11/26 Ran
 # 1 select a engine address 
 # 2 display engine 6 json file
 # 3 able to manual refresh json file 
 # 4 able to log the json file if different
 # 5 able to enable/disable auto reflash
-# 6 able to high light which json file has updated (<span style="background-color: #FFFF00">Yellow text.</span>)
-# 7- able to high light which value has been updated(font color = red)
+# 6 able to high light which json file has updated text.
+# 7 able to speak when json file has updated
+# 8 save in logs in log folder
+# 9- not implement yet- able to high light which value has been updated(font color = red)
 
 #---pre condition for auto refresh------
 $page = $_SERVER['PHP_SELF'];
 if (isset($_SESSION["sec"])==false)
 {	$_SESSION["sec"]= 360; }
+
+#---make log dir--
+if (!file_exists('log')) {
+    mkdir('log', 0777, true);
+}
 
 #---header file------
 echo '
@@ -92,6 +99,7 @@ echo '
 	</style>
 	</head>
 	<body>
+
 	<div id="main_content">';
 	
 // <?php
